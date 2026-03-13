@@ -1,6 +1,6 @@
-# Visão Amiga - TCC
+# SIGA: Sistema inteligente de guiagem assistiva - TCC
 
-O **Visão Amiga** é um projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) para o curso técnico. O objetivo principal do projeto é utilizar a tecnologia para auxiliar pessoas com deficiência visual a navegarem com mais segurança e autonomia em seu cotidiano.
+O **SIGA** é um projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) para o curso técnico. O objetivo principal do projeto é utilizar a tecnologia para auxiliar pessoas com deficiência visual a navegarem com mais segurança e autonomia em seu cotidiano.
 
 ## 📋 Sobre o Projeto
 O projeto utiliza conceitos de visão computacional e sensores para identificar obstáculos e objetos, fornecendo feedback em tempo real para o usuário. Os detalhes teóricos, metodológicos e as especificações técnicas completas podem ser encontrados nos arquivos de documentação (`.pdf` e `.docx`) presentes neste repositório.
@@ -34,4 +34,4 @@ O desenvolvimento do Visão Amiga foi dividido entre as equipes de desenvolvimen
 ## 🚀 Como Executar
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/Pietro-Freitas/Visao-amiga.git
+   git clone https://github.com/Pietro-Freitas/Siga.git
