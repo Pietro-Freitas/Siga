@@ -14,10 +14,10 @@ ultimo_texto = ''
 
 #MODELOS
 reader = easyocr.Reader(['pt'])
-modelo_urbano = YOLO('runs/detect/train3/weights/best.pt')
-modelo_geral = YOLO('yolov8m.pt')
-modelo_esquina = YOLO('esquina.pt')
-modelo_comando = vosk.Model('vosk-model-small-pt-0.3')
+modelo_urbano = YOLO('modelos/best.pt')
+modelo_geral = YOLO('modelos/yolov8m.pt')
+modelo_esquina = YOLO('modelos/esquina.pt')
+modelo_comando = vosk.Model('modelos/vosk-model-small-pt-0.3')
 rec = vosk.KaldiRecognizer(modelo_comando, 16000)
 
 #VOZ

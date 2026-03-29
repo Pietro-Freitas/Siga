@@ -1,0 +1,14 @@
+names:
+- '0'
+- Curb
+- curb
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: esquina-h5grp
+  url: https://universe.roboflow.com/elementos-urbanos/esquina-h5grp/dataset/2
+  version: 2
+  workspace: elementos-urbanos
+test: ../test/images
+train: ../train/images
+val: ../valid/images

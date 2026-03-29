@@ -1,5 +1,2 @@
-runs/
-Visao-Amiga-1/
-Visao-Amiga-2/
-Esquina-1/
-Esquina-2/
+.env
+.agent/
