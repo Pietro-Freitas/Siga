@@ -30,6 +30,7 @@ O desenvolvimento do Visão Amiga foi dividido entre as equipes de desenvolvimen
 ## 📂 Estrutura do Repositório
 * `/src`: Contém o código-fonte do projeto.
 * `/docs`: Arquivos `.pdf` e `.docx` com a fundamentação teórica e o relatório do TCC.
+* `/modelos`: Contém os modelos de IA usados no sistema.
 
 ## 🚀 Como Executar
 1. Clone o repositório:
