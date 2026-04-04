@@ -7,7 +7,7 @@ O projeto utiliza conceitos de visão computacional e sensores para identificar 
 
 ## 👥 Equipe do Projeto
 
-O desenvolvimento do Visão Amiga foi dividido entre as equipes de desenvolvimento de software/hardware e documentação técnica:
+O desenvolvimento do SIGA foi dividido entre as equipes de desenvolvimento de software/hardware e documentação técnica:
 
 ### 💻 Desenvolvimento (Código e Hardware)
 * **Pietro Cardoso de Freitas**
