@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Optional
 import cv2
 import numpy as np
-from config import DISPLAY, OBSTACLE_CLASSES, OCR, VOICE
+from config import DISPLAY, OBSTACLE_CLASSES, OBSTACLE_PRIORITIES, OCR, VOICE
 from model_manager import InferenceResult, ModelManager
 from speech_engine import SpeechEngine
 from vision_engine import FrameRenderer, VisionEngine
@@ -315,17 +315,26 @@ class SigaOrchestrator:
     def _announce_obstacles(self, result: InferenceResult) -> None:
         """
         Anuncia obstáculos relevantes com controle de spam por classe.
-        As classes são configuradas em config.OBSTACLE_CLASSES.
+        As detecções são ordenadas pela prioridade configurada.
+        Itens mega perigosos (prioridade <= 4) têm spam reduzido e usam fala prioritária.
         """
         now = time.monotonic()
 
-        for det in result.detections:
-            if det.name not in OBSTACLE_CLASSES:
-                continue
+        # Filtra apenas o que está no config e ordena
+        valid_dets = [d for d in result.detections if d.name in OBSTACLE_CLASSES]
+        valid_dets.sort(key=lambda d: OBSTACLE_PRIORITIES.get(d.name, 99))
+
+        for det in valid_dets:
+            prioridade_nivel = OBSTACLE_PRIORITIES.get(det.name, 99)
+            eh_mega_perigoso = prioridade_nivel <= 4
+            
+            # Reduz bastante o spam_interval para coisas perigosas (ex. 1.5s em vez do padrao)
+            spam_espera = 1.5 if eh_mega_perigoso else VOICE.spam_interval
+            
             last = self._last_detection_ts.get(det.name, 0.0)
-            if now - last > VOICE.spam_interval:
+            if now - last > spam_espera:
                 self._last_detection_ts[det.name] = now
-                self._voz.falar(f"{det.name} detectado.")
+                self._voz.falar(f"{det.name} detectado.", prioridade=eh_mega_perigoso)
 
     def _cleanup_detection_cache(self) -> None:
         """Remove entradas expiradas do cache de detecções (evita memory leak)."""

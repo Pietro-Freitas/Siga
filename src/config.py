@@ -131,10 +131,43 @@ DISPLAY = DisplayConfig()
 # ---------------------------------------------------------------------------
 # Classes de obstáculos que devem ser anunciados via TTS
 # ---------------------------------------------------------------------------
-OBSTACLE_CLASSES = frozenset({
-    "person", "car", "truck", "bus", "bicycle", "motorcycle",
-    "dog", "cat", "bench", "fire hydrant",
-})
+# Dicionário de classes com prioridades (1 = Risco de vida/Fogo, 99 = Menor irrelevante)
+OBSTACLE_PRIORITIES = {
+    # Emergências críticas
+    "Fogo": 1,
+    "Fumaca": 2,
+    "Buraco": 3,
+    "Escada": 4,
+
+    # Perigo iminente (Tráfego pesado)
+    "Semaforo Vermelho": 5,
+    "car": 6,
+    "truck": 7,
+    "bus": 8,
+    "Veiculo": 9,
+    "motorcycle": 10,
+    
+    # Navegação / Atenção Moderada
+    "Piso Molhado": 11,
+    "Semaforo Verde": 12,
+    "Faixa de Pedestre": 13,
+    "Saida": 14,
+    
+    # Obstáculos móveis ou inesperados
+    "bicycle": 15,
+    "person": 16,
+    "Animal": 17,
+    "dog": 18,
+    
+    # Obstáculos estáticos menores
+    "Cone": 19,
+    "Poste de Protecao": 20,
+    "fire hydrant": 21,
+    "bench": 22,
+    "cat": 23,
+}
+
+OBSTACLE_CLASSES = frozenset(OBSTACLE_PRIORITIES.keys())
 
 # Cores por fonte de detecção (BGR para OpenCV)
 COLOR_URBANO  = (0,   255,   0)   # Verde
