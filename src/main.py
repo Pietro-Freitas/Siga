@@ -127,6 +127,8 @@ class SigaOrchestrator:
 
         # Para controle de spam de detecções comuns
         self._last_detection_ts: dict[str, float] = {}
+        self._first_seen_ts: dict[str, float] = {}
+        self._last_seen_ts: dict[str, float] = {}
         self._last_det_cleanup = time.monotonic()
 
     # ------------------------------------------------------------------
@@ -327,14 +329,26 @@ class SigaOrchestrator:
         for det in valid_dets:
             prioridade_nivel = OBSTACLE_PRIORITIES.get(det.name, 99)
             eh_mega_perigoso = prioridade_nivel <= 4
+            imediato = prioridade_nivel <= 11  # Objetos mais urgentes avisam na hora
             
             # Reduz bastante o spam_interval para coisas perigosas (ex. 1.5s em vez do padrao)
             spam_espera = 1.5 if eh_mega_perigoso else VOICE.spam_interval
             
-            last = self._last_detection_ts.get(det.name, 0.0)
-            if now - last > spam_espera:
-                self._last_detection_ts[det.name] = now
-                self._voz.falar(f"{det.name} detectado.", prioridade=eh_mega_perigoso)
+            # Lógica de tempo de visibilidade contínua
+            last_seen = self._last_seen_ts.get(det.name, 0.0)
+            # Se o objeto sumiu por mais de 1 segundo, zera o tempo inicial
+            if now - last_seen > 1.0:
+                self._first_seen_ts[det.name] = now
+            
+            self._last_seen_ts[det.name] = now
+            tempo_visivel = now - self._first_seen_ts[det.name]
+
+            # Fala se for imediato, ou se já estiver detectando há >= 2 segundos
+            if imediato or tempo_visivel >= 2.0:
+                last_announced = self._last_detection_ts.get(det.name, 0.0)
+                if now - last_announced > spam_espera:
+                    self._last_detection_ts[det.name] = now
+                    self._voz.falar(f"{det.name} detectado.", prioridade=eh_mega_perigoso)
 
     def _cleanup_detection_cache(self) -> None:
         """Remove entradas expiradas do cache de detecções (evita memory leak)."""
@@ -348,6 +362,14 @@ class SigaOrchestrator:
         ]
         for k in expired:
             del self._last_detection_ts[k]
+        
+        expired_seen = [
+            k for k, v in self._last_seen_ts.items()
+            if (now - v) > VOICE.spam_interval * 3
+        ]
+        for k in expired_seen:
+            self._first_seen_ts.pop(k, None)
+            self._last_seen_ts.pop(k, None)
 
     @staticmethod
     def _nomes_coincidem(detectado: str, objetivo: str) -> bool:

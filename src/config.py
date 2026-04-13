@@ -165,6 +165,9 @@ OBSTACLE_PRIORITIES = {
     "fire hydrant": 21,
     "bench": 22,
     "cat": 23,
+
+    #Outras coisas
+    "cell phone": 17
 }
 
 OBSTACLE_CLASSES = frozenset(OBSTACLE_PRIORITIES.keys())
